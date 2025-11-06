@@ -1,25 +1,30 @@
 {
-  "dependencies": {
-    "axios": "^1.13.2",
-    "bcrypt": "^6.0.0",
-    "cors": "^2.8.5",
-    "dotenv": "^17.2.3",
-    "express": "^5.1.0",
-    "sqlite": "^5.1.1",
-    "sqlite3": "^5.1.7"
-  },
-  "name": "api",
-  "version": "1.0.0",
-  "description": "",
-  "main": "main.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "devDependencies": {
-    "prettier": "^3.6.2"
-  }
+    "dependencies": {
+        "axios": "^1.13.2",
+        "bcrypt": "^6.0.0",
+        "cors": "^2.8.5",
+        "dotenv": "^17.2.3",
+        "express": "^5.1.0",
+        "sqlite": "^5.1.1",
+        "sqlite3": "^5.1.7"
+    },
+    "name": "api",
+    "version": "1.0.0",
+    "description": "",
+    "main": "main.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "debug": "node -e \"console.log('Args:', JSON.stringify(process.argv, null, 2)); console.log('ENV URL:', process.env.npm_config_url); console.log('ENV KEY:', process.env.npm_config_apikey);\"",
+        "prepare-env": "bash -lc '[ -f .env ] && echo \".env exists, skipping\" || (cp .env.example .env && echo \".env created\")'",
+        "prepare-env:force": "bash -lc 'cp .env.example .env && echo \".env overwritten\"'",
+        "prepare-env:cli": "node -e \"const url = process.argv[1]; const key = process.argv[2]; const finalUrl = url || process.env.npm_config_url; const finalKey = key || process.env.npm_config_apikey; if (!finalUrl || !finalKey) { console.log('Usage:\\n  npm run prepare-env:cli -- <TICKETS_URL> <TICKETS_API_KEY>\\nOr via npm config:\\n  npm run prepare-env:cli --url=<TICKETS_URL> --apikey=<TICKETS_API_KEY>'); process.exit(1); } require('fs').writeFileSync('.env', \\`TICKETS_URL=\\${finalUrl}\\nTICKETS_API_KEY=\\${finalKey}\\nPORT=3001\\n\\`); console.log('.env created');\"",
+        "build": "npm run prepare-env"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "type": "commonjs",
+    "devDependencies": {
+        "prettier": "^3.6.2"
+    }
 }
