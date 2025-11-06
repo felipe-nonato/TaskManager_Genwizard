@@ -31,7 +31,7 @@ export default function TicketsPage() {
     const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null)
     const router = useRouter()
 
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
+    const API_URL = 'https://taskmanager-genwizard.onrender.com'
 
     useEffect(() => {
         fetchTickets()
