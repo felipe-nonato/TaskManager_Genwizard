@@ -1,0 +1,47 @@
+# Dependências
+node_modules/
+**/node_modules/
+
+# Build e dist
+build/
+dist/
+.next/
+out/
+
+# Arquivos de cache
+.cache/
+.parcel-cache/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Arquivos de banco de dados
+*.db
+*.sqlite
+*.sqlite3
+
+# Arquivos de ambiente
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Arquivos gerados
+coverage/
+.nyc_output/
+
+# Arquivos de configuração específicos
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Arquivos temporários
+*.tmp
+*.temp
+
+# Markdown gerado automaticamente
+CHANGELOG.md

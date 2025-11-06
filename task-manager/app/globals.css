@@ -1,0 +1,30 @@
+@import 'tailwindcss';
+
+:root {
+    --background: #ffffff;
+    --foreground: #000000;
+    --accent: #ff0000;
+}
+
+@theme inline {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --font-sans: var(--font-space-mono);
+    --font-mono: var(--font-jetbrains-mono);
+}
+
+body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-space-mono), monospace;
+    font-feature-settings: 'liga' 0;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Efeito pixelado/dot matrix */
+* {
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
