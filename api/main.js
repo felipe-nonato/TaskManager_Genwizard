@@ -315,6 +315,167 @@ app.post('/tickets', async (req, res) => {
     }
 })
 
+// Rota para documentação da API
+app.get('/', (req, res) => {
+    const html = `
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation - Task Manager</title>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            line-height: 1.6; 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 20px; 
+            background: #f8f9fa;
+        }
+        .container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
+        h2 { color: #34495e; margin-top: 30px; }
+        h3 { color: #16a085; }
+        .endpoint { 
+            background: #ecf0f1; 
+            padding: 15px; 
+            border-radius: 5px; 
+            margin: 15px 0; 
+            border-left: 4px solid #3498db;
+        }
+        .method { 
+            background: #27ae60; 
+            color: white; 
+            padding: 5px 10px; 
+            border-radius: 3px; 
+            font-weight: bold; 
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .method.post { background: #e74c3c; }
+        .method.get { background: #27ae60; }
+        pre { 
+            background: #2c3e50; 
+            color: #ecf0f1; 
+            padding: 15px; 
+            border-radius: 5px; 
+            overflow-x: auto;
+            font-size: 14px;
+        }
+        .response { background: #d5f4e6; padding: 10px; border-radius: 5px; margin: 10px 0; }
+        .error { background: #fadbd8; padding: 10px; border-radius: 5px; margin: 10px 0; }
+        .config { background: #fef9e7; padding: 15px; border-radius: 5px; margin: 15px 0; }
+        .footer { text-align: center; margin-top: 40px; color: #7f8c8d; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎫 API Documentation - Task Manager</h1>
+        
+        <div class="config">
+            <h2>⚙️ Configuração Rápida</h2>
+            <p><strong>Base URL:</strong> <code>http://localhost:${process.env.PORT || 3001}</code></p>
+            <p><strong>Scripts de Build:</strong></p>
+            <pre>yarn && npm run prepare-env</pre>
+        </div>
+
+        <h2>🔐 Autenticação</h2>
+        
+        <div class="endpoint">
+            <span class="method post">POST</span><strong>/register</strong>
+            <p>Cadastra um novo usuário</p>
+            <pre>{
+  "name": "João Silva",
+  "email": "joao@exemplo.com", 
+  "password": "minhasenha123"
+}</pre>
+            <div class="response">✅ <strong>Resposta (201):</strong> <code>{"message": "Usuário cadastrado com sucesso", "userId": 1}</code></div>
+        </div>
+
+        <div class="endpoint">
+            <span class="method post">POST</span><strong>/login</strong>
+            <p>Autentica um usuário existente</p>
+            <pre>{
+  "email": "joao@exemplo.com",
+  "password": "minhasenha123"
+}</pre>
+            <div class="response">✅ <strong>Resposta (200):</strong> Dados do usuário sem senha</div>
+        </div>
+
+        <h2>🎫 Tickets</h2>
+        
+        <div class="endpoint">
+            <span class="method post">POST</span><strong>/tickets</strong>
+            <p>Cria um novo ticket e envia para API externa</p>
+            <pre>{
+  "priority": "Alta",
+  "label": "Problema no Sistema",
+  "description": "Descrição detalhada do problema",
+  "value": "Valor ou identificador",
+  "userId": 1
+}</pre>
+            <div class="response">✅ <strong>Resposta (200):</strong> <code>{"success": true, "ticketId": 1, "eventId": "Event-ABC123"}</code></div>
+            <div class="error">❌ <strong>Erro (500):</strong> Ticket salvo, mas falha ao enviar para API externa</div>
+        </div>
+
+        <div class="endpoint">
+            <span class="method get">GET</span><strong>/tickets</strong>
+            <p>Lista tickets com filtros opcionais</p>
+            <p><strong>Query Parameters:</strong> <code>userId, limit, offset</code></p>
+            <p><strong>Exemplo:</strong> <code>/tickets?userId=1&limit=10</code></p>
+            <div class="response">✅ <strong>Resposta (200):</strong> Array de tickets com metadata</div>
+        </div>
+
+        <div class="endpoint">
+            <span class="method post">POST</span><strong>/tickets/atr</strong>
+            <p>Atualiza um ticket com resposta ATR</p>
+            <pre>{
+  "short_description": "Ticket resolvido - Event-ABC123",
+  "atrResponse": {
+    "status": "resolved",
+    "resolution": "Problema solucionado"
+  }
+}</pre>
+            <div class="response">✅ <strong>Resposta (200):</strong> ATR atualizado com sucesso</div>
+        </div>
+
+        <h2>👥 Usuários</h2>
+        
+        <div class="endpoint">
+            <span class="method get">GET</span><strong>/users</strong>
+            <p>Lista todos os usuários cadastrados (apenas para teste)</p>
+            <div class="response">✅ <strong>Resposta (200):</strong> Array de usuários sem senhas</div>
+        </div>
+
+        <h2>🧪 Teste Rápido</h2>
+        <pre>
+# 1. Cadastrar usuário
+curl -X POST http://localhost:${process.env.PORT || 3001}/register \\
+  -H "Content-Type: application/json" \\
+  -d '{"name":"João","email":"joao@test.com","password":"123456"}'
+
+# 2. Fazer login  
+curl -X POST http://localhost:${process.env.PORT || 3001}/login \\
+  -H "Content-Type: application/json" \\
+  -d '{"email":"joao@test.com","password":"123456"}'
+
+# 3. Criar ticket
+curl -X POST http://localhost:${process.env.PORT || 3001}/tickets \\
+  -H "Content-Type: application/json" \\
+  -d '{"priority":"Alta","label":"Bug","description":"Erro crítico","value":"TICKET-001","userId":1}'
+        </pre>
+
+        <div class="footer">
+            <p>📚 Task Manager API | Desenvolvido com Express.js e SQLite</p>
+        </div>
+    </div>
+</body>
+</html>
+    `
+    res.send(html)
+})
+
 // Inicializa o servidor
 ;(async () => {
     try {
